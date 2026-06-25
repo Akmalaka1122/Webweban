@@ -1,0 +1,54 @@
+# Dependencies
+node_modules/
+.pnpm-store/
+
+# Build outputs
+dist/
+build/
+.astro/
+.next/
+out/
+
+# Environment
+.env
+.env.local
+.env.production
+!.env.example
+
+# Logs
+*.log
+npm-debug.log*
+pnpm-debug.log*
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Docker volumes
+docker/mongo/data/
+docker/caddy/data/
+docker/caddy/config/
+
+# Backups
+backups/
+*.gz
+
+# Coverage
+coverage/
+.nyc_output/
+
+# TypeScript
+*.tsbuildinfo
+
+# Prisma / Payload migrations
+apps/cms/src/migrations/dev/
+
+# Runtime
+*.pid
+.cache/
