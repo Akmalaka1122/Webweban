@@ -1,26 +1,66 @@
-# RIKAS Website
+# RIKAS INDO TECHNOLOGY — Website
 
-**RIKAS INDO TECHNOLOGY** — corporate website.
+> Official website for RIKAS INDO TECHNOLOGY, an Event Organizer (Esports & Community) in Central Java, Indonesia.
 
-Design inspiration: Team Liquid (clean, modern, navy-and-white esports aesthetic).
+## Tech Stack
 
-## How to Run
+| Layer | Choice |
+|---|---|
+| Frontend | Astro 5.x + React 19 islands |
+| CMS | Payload CMS 3.x |
+| Database | MongoDB 7.x |
+| Styling | Tailwind CSS 4.x |
+| Containerization | Docker Compose |
+| Reverse Proxy | Caddy 2.x |
+| Monorepo | pnpm 9 workspaces |
 
-### With Docker Compose (recommended)
+## Quickstart
 
+### Prerequisites
+- Node.js ≥ 20
+- pnpm ≥ 9
+- Docker & Docker Compose
+
+### Development
 ```bash
-docker compose up --build -d
+# Install dependencies
+pnpm install
+
+# Start development servers
+pnpm dev
+# → Astro: http://localhost:3000
+# → Payload: http://localhost:3001/admin
 ```
 
-This starts:
-- **app** — nginx-alpine serving the static site on port `8080`
-- **caddy** — reverse proxy with automatic HTTPS on ports `80` and `443`
-
-### Standalone with nginx
-
+### Production (Docker)
 ```bash
-docker build -t rikas-site .
-docker run -p 8080:80 rikas-site
+cd docker
+docker compose up -d
+# → https://rikas.id (after DNS config)
 ```
 
-Then visit http://localhost:8080.
+## Project Structure
+
+```
+rikas-website/
+├── apps/
+│   ├── web/          # Astro frontend
+│   └── cms/          # Payload CMS
+├── packages/
+│   └── shared/       # Shared types & schemas
+├── docker/           # Docker configs
+├── scripts/          # Build & deploy scripts
+└── .prd-spec-kit/    # PRD, spec, plan, tasks
+```
+
+## Documentation
+
+- [PRD](.prd-spec-kit/prd.md)
+- [Product Spec](.prd-spec-kit/spec.md)
+- [Technical Plan](.prd-spec-kit/plan.md)
+- [Task Breakdown](.prd-spec-kit/tasks.md)
+- [Constitution](constitution.md)
+
+## License
+
+Private — RIKAS INDO TECHNOLOGY

@@ -1,0 +1,146 @@
+---
+---
+
+<header class="navbar">
+  <div class="navbar-inner container">
+    <a href="/" class="navbar-logo" aria-label="RIKAS INDO TECHNOLOGY — Beranda">
+      <img src="/assets/logo.png" alt="RIKAS Logo" width="140" height="40" />
+    </a>
+
+    <input type="checkbox" id="nav-toggle" class="nav-toggle-input" aria-label="Toggle menu" />
+    <label for="nav-toggle" class="nav-toggle" aria-hidden="true">
+      <span></span>
+      <span></span>
+      <span></span>
+    </label>
+
+    <nav class="navbar-nav" aria-label="Navigasi utama">
+      <a href="/" class="nav-link">Beranda</a>
+      <a href="/events" class="nav-link">Event</a>
+      <a href="/services" class="nav-link">Layanan</a>
+      <a href="/team" class="nav-link">Tim</a>
+      <a href="/news" class="nav-link">Berita</a>
+      <a href="/gallery" class="nav-link">Galeri</a>
+      <a href="/contact" class="nav-link nav-link--cta">Kontak</a>
+    </nav>
+  </div>
+</header>
+
+<style>
+  .navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+    background: rgba(10, 15, 30, 0.8);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .navbar-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 72px;
+  }
+
+  .navbar-logo img {
+    height: 40px;
+    width: auto;
+  }
+
+  .navbar-nav {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+  }
+
+  .nav-link {
+    padding: 0.5rem 1rem;
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: var(--color-text-muted);
+    border-radius: var(--radius);
+    transition: color 0.2s, background 0.2s;
+  }
+
+  .nav-link:hover {
+    color: var(--color-text);
+    background: var(--color-glass);
+  }
+
+  .nav-link--cta {
+    background: var(--color-accent);
+    color: #fff;
+    margin-left: 0.5rem;
+  }
+
+  .nav-link--cta:hover {
+    background: #ea6c0a;
+    color: #fff;
+  }
+
+  /* Hamburger */
+  .nav-toggle-input {
+    display: none;
+  }
+
+  .nav-toggle {
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    gap: 5px;
+    width: 30px;
+    height: 30px;
+    cursor: pointer;
+  }
+
+  .nav-toggle span {
+    display: block;
+    height: 2px;
+    width: 100%;
+    background: var(--color-text);
+    border-radius: 2px;
+    transition: transform 0.3s, opacity 0.3s;
+  }
+
+  .nav-toggle-input:checked ~ .navbar-nav {
+    display: flex;
+    position: absolute;
+    top: 72px;
+    left: 0;
+    right: 0;
+    flex-direction: column;
+    background: rgba(10, 15, 30, 0.95);
+    backdrop-filter: blur(12px);
+    padding: 1rem;
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .nav-toggle-input:checked ~ .nav-toggle span:nth-child(1) {
+    transform: translateY(7px) rotate(45deg);
+  }
+  .nav-toggle-input:checked ~ .nav-toggle span:nth-child(2) {
+    opacity: 0;
+  }
+  .nav-toggle-input:checked ~ .nav-toggle span:nth-child(3) {
+    transform: translateY(-7px) rotate(-45deg);
+  }
+
+  @media (max-width: 768px) {
+    .nav-toggle {
+      display: flex;
+    }
+
+    .navbar-nav {
+      display: none;
+    }
+
+    .nav-link--cta {
+      margin-left: 0;
+      margin-top: 0.5rem;
+    }
+  }
+</style>

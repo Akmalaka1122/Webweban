@@ -1,0 +1,15 @@
+node_modules
+.pnpm-store
+dist
+.astro
+.output
+.env
+.env.*
+.git
+.github
+.vscode
+.idea
+_archive
+docs
+*.md
+!README.md

@@ -1,0 +1,14 @@
+{
+  "name": "rikas-website",
+  "private": true,
+  "scripts": {
+    "dev": "pnpm --filter @rikas/web dev",
+    "build": "pnpm --filter @rikas/web build",
+    "lint": "eslint .",
+    "format": "prettier --write .",
+    "typecheck": "pnpm -r typecheck"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}

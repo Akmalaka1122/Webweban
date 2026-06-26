@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://rikas.id/sitemap.xml

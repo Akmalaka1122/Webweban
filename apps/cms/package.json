@@ -1,0 +1,22 @@
+{
+  "name": "@rikas/cms",
+  "type": "module",
+  "scripts": {
+    "dev": "payload dev",
+    "build": "payload build",
+    "start": "node dist/server.js"
+  },
+  "dependencies": {
+    "payload": "^3.38.0",
+    "@payloadcms/db-mongodb": "^3.38.0",
+    "@payloadcms/richtext-lexical": "^3.38.0",
+    "sharp": "^0.33.0",
+    "express": "^4.21.2",
+    "dotenv": "^16.5.0"
+  },
+  "devDependencies": {
+    "@types/express": "^5.0.2",
+    "@types/node": "^22.15.3",
+    "typescript": "^5.8.3"
+  }
+}

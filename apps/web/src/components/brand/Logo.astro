@@ -1,0 +1,18 @@
+---
+interface Props {
+  width?: number;
+  height?: number;
+  class?: string;
+}
+
+const { width = 140, height = 40, class: className = '' } = Astro.props;
+---
+
+<img
+  src="/assets/logo.png"
+  alt="RIKAS INDO TECHNOLOGY Logo"
+  width={width}
+  height={height}
+  class={className}
+  loading="eager"
+/>

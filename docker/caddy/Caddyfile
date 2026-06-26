@@ -1,0 +1,27 @@
+:80 {
+    # Astro frontend
+    handle /api/* {
+        reverse_proxy cms:3001
+    }
+
+    handle /admin/* {
+        reverse_proxy cms:3001
+    }
+
+    handle {
+        reverse_proxy web:3000
+    }
+}
+
+# Production (uncomment after DNS setup)
+# rikas.id {
+#     handle /api/* {
+#         reverse_proxy cms:3001
+#     }
+#     handle /admin/* {
+#         reverse_proxy cms:3001
+#     }
+#     handle {
+#         reverse_proxy web:3000
+#     }
+# }

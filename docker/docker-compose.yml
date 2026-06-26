@@ -1,0 +1,59 @@
+services:
+  web:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile.web
+    ports:
+      - "3000:3000"
+    environment:
+      - PAYLOAD_PUBLIC_SERVER_URL=http://cms:3001
+      - MONGODB_URI=mongodb://mongo:***@gmail.com
+      - SITE_URL=${SITE_URL:-http://localhost:8080}
+    depends_on:
+      - cms
+    restart: unless-stopped
+
+  cms:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile.cms
+    ports:
+      - "3001:3001"
+    environment:
+      - MONGODB_URI=mongodb://mongo:***@gmail.com
+      - PAYLOAD_SECRET=${PAYLOAD_SECRET}
+      - JWT_SECRET=${JWT_SECRET}
+    depends_on:
+      - mongo
+    restart: unless-stopped
+
+  mongo:
+    image: mongo:7
+    ports:
+      - "27017:27017"
+    volumes:
+      - ./mongo/data:/data/db
+      - ./mongo/mongod.conf:/etc/mongod.conf
+    command: ["--config", "/etc/mongod.conf"]
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=${MONGO_USERNAME:-admin}
+      - MONGO_INITDB_ROOT_PASSWORD=${MONGO_PASSWORD:-change-me}
+    restart: unless-stopped
+
+  caddy:
+    image: caddy:2-alpine
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./caddy/Caddyfile:/etc/caddy/Caddyfile
+      - caddy_data:/data
+      - caddy_config:/config
+    depends_on:
+      - web
+      - cms
+    restart: unless-stopped
+
+volumes:
+  caddy_data:
+  caddy_config:
