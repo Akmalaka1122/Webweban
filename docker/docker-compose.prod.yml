@@ -1,0 +1,74 @@
+services:
+  web:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile.web
+    environment:
+      - PAYLOAD_PUBLIC_SERVER_URL=http://cms:3001
+      - MONGODB_URI=mongodb://${MONGO_USERNAME:-admin}:${MONGO_PASSWORD:-***@mongo:27017/rikas?authSource=admin
+      - SITE_URL=https://rikas.id
+      - NODE_ENV=production
+    depends_on:
+      cms:
+        condition: service_healthy
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "wget", "--spider", "-q", "http://localhost:3000/health"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+
+  cms:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile.cms
+    environment:
+      - MONGODB_URI=mongodb://${MONGO_USERNAME:-admin}:${MONGO_PASSWORD:-***@mongo:27017/rikas?authSource=admin
+      - PAYLOAD_SECRET=${PAYLOAD_SECRET}
+      - NODE_ENV=production
+    depends_on:
+      mongo:
+        condition: service_healthy
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "wget", "--spider", "-q", "http://localhost:3001/admin"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+
+  mongo:
+    image: mongo:7
+    volumes:
+      - mongo_data:/data/db
+      - ./mongo/mongod.conf:/etc/mongod.conf
+    command: ["--config", "/etc/mongod.conf"]
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=${MONGO_USERNAME:-admin}
+      - MONGO_INITDB_ROOT_PASSWORD=${MONGO_PASSWORD:-***_MONGO_CACHE_SIZE=512
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "mongosh", "--eval", "db.adminCommand('ping')"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+
+  caddy:
+    image: caddy:2-alpine
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./caddy/Caddyfile:/etc/caddy/Caddyfile
+      - caddy_data:/data
+      - caddy_config:/config
+      - caddy_logs:/var/log/caddy
+    depends_on:
+      - web
+      - cms
+    restart: unless-stopped
+
+volumes:
+  mongo_data:
+  caddy_data:
+  caddy_config:
+  caddy_logs:

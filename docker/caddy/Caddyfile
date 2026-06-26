@@ -1,27 +1,50 @@
-:80 {
-    # Astro frontend
+rikas.id {
+    # Security headers
+    header {
+        X-Content-Type-Options nosniff
+        X-Frame-Options SAMEORIGIN
+        Referrer-Policy strict-origin-when-cross-origin
+        Permissions-Policy camera=(), microphone=(), geolocation=()
+        Strict-Transport-Security "max-age=31536000; includeSubDomains"
+    }
+
+    # CMS admin + API
+    handle /admin/* {
+        reverse_proxy cms:3001
+    }
     handle /api/* {
         reverse_proxy cms:3001
     }
 
+    # Frontend
+    handle {
+        reverse_proxy web:3000
+    }
+
+    # Compression
+    encode gzip zstd
+
+    # Logging
+    log {
+        output file /var/log/caddy/access.log
+        format json
+    }
+}
+
+# HTTP redirect
+http://rikas.id {
+    redir https://rikas.id{uri} permanent
+}
+
+# Local dev (fallback)
+:80 {
     handle /admin/* {
         reverse_proxy cms:3001
     }
-
+    handle /api/* {
+        reverse_proxy cms:3001
+    }
     handle {
         reverse_proxy web:3000
     }
 }
-
-# Production (uncomment after DNS setup)
-# rikas.id {
-#     handle /api/* {
-#         reverse_proxy cms:3001
-#     }
-#     handle /admin/* {
-#         reverse_proxy cms:3001
-#     }
-#     handle {
-#         reverse_proxy web:3000
-#     }
-# }

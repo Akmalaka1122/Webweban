@@ -5,6 +5,7 @@ import Footer from '../../components/brand/Footer.astro';
 import Badge from '../../components/ui/Badge.astro';
 import WhatsAppCTA from '../../components/events/WhatsAppCTA.astro';
 import { getEventBySlug } from '../../lib/cms';
+import { eventSchema } from '../../lib/schema';
 
 const { slug } = Astro.params;
 let event: any = null;
@@ -25,9 +26,10 @@ const statusMap: Record<string, { label: string; variant: string }> = {
 const s = statusMap[event.status || 'upcoming'] || statusMap.upcoming;
 const dateStr = event.date ? new Date(event.date).toLocaleDateString('id-ID', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' }) : '';
 const img = event.featured_image?.sizes?.hero?.url || event.featured_image?.url || '/placeholder-event.jpg';
+const schema = eventSchema({ title: event.title, date: event.date, location: event.location, description: event.description, image: img });
 ---
 
-<BaseLayout title={event.title} description={`Event ${event.title} oleh RIKAS INDO TECHNOLOGY — ${event.game || 'Esports'} di ${event.location || 'Jawa Tengah'}`}>
+<BaseLayout title={event.title} description={`Event ${event.title} oleh RIKAS INDO TECHNOLOGY — ${event.game || 'Esports'} di ${event.location || 'Jawa Tengah'}`} schema={schema}>
   <Navbar slot="header" />
 
   <section class="section event-detail">

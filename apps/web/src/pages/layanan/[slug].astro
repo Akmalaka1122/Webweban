@@ -5,6 +5,7 @@ import Footer from '../../components/brand/Footer.astro';
 import Button from '../../components/ui/Button.astro';
 import TeamMemberCard from '../../components/team/TeamMemberCard.astro';
 import { getServiceBySlug } from '../../lib/cms';
+import { serviceSchema } from '../../lib/schema';
 
 const { slug } = Astro.params;
 let service: any = null;
@@ -15,9 +16,10 @@ try {
 if (!service) {
   return Astro.redirect('/layanan');
 }
+const schema = serviceSchema({ title: service.title, description: service.description });
 ---
 
-<BaseLayout title={service.title} description={`Layanan ${service.title} dari RIKAS INDO TECHNOLOGY`}>
+<BaseLayout title={service.title} description={`Layanan ${service.title} dari RIKAS INDO TECHNOLOGY`} schema={schema}>
   <Navbar slot="header" />
 
   <section class="section">

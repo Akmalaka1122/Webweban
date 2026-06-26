@@ -3,6 +3,7 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 import Navbar from '../../components/brand/Navbar.astro';
 import Footer from '../../components/brand/Footer.astro';
 import { getArticleBySlug } from '../../lib/cms';
+import { articleSchema } from '../../lib/schema';
 
 const { slug } = Astro.params;
 let article: any = null;
@@ -16,9 +17,10 @@ if (!article) {
 
 const img = article.featured_image?.sizes?.hero?.url || article.featured_image?.url;
 const dateStr = article.published_at ? new Date(article.published_at).toLocaleDateString('id-ID', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' }) : '';
+const schema = articleSchema({ title: article.title, published_at: article.published_at, excerpt: article.excerpt, image: img, author: article.author?.name });
 ---
 
-<BaseLayout title={article.title} description={article.excerpt || `Berita dari RIKAS INDO TECHNOLOGY: ${article.title}`}>
+<BaseLayout title={article.title} description={article.excerpt || `Berita dari RIKAS INDO TECHNOLOGY: ${article.title}`} schema={schema}>
   <Navbar slot="header" />
 
   <article class="section">
