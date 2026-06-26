@@ -299,25 +299,28 @@ Static-export Astro 5 frontend for marketing pages, Payload CMS 3 (Node.js) for 
 
 > Full list in `.prd-spec-kit/tasks.md`.
 
-~70 tasks across 7 phases:
-1. **Setup** (10 tasks) — repo init, Docker Compose, Astro scaffold, Payload scaffold
-2. **Foundational** (12 tasks) — design tokens, navigation, footer, layouts, CMS collections
+~140 tasks across 9 phases:
+1. **Setup** (18 tasks) — repo init, Docker Compose, Astro scaffold, Payload scaffold
+2. **Foundational** (29 tasks) — design tokens, navigation, footer, layouts, CMS collections
 3. **US1: Event Showcase** (12 tasks) — event pages, filtering, detail page
-4. **US2: Services & Team** (10 tasks) — service pages, team grid, profile pages
-5. **US3: Contact Form** (8 tasks) — form, validation, CMS storage, email notification
-6. **US4: News & Gallery** (10 tasks) — article pages, gallery, lightbox
-7. **US5: CMS & Admin** (8 tasks) — Payload collections, admin UI, auth, roles
-8. **Polish** (10 tasks) — Lighthouse audit, SEO, sitemap, accessibility, deploy
+4. **US2: Services & Team** (15 tasks) — service pages, team grid, profile pages
+5. **US3: Contact Form** (11 tasks) — form, validation, CMS storage, email notification
+6. **US4: News & Gallery** (11 tasks) — article pages, gallery, lightbox
+7. **US5: CMS & Admin** (10 tasks) — Payload collections, admin UI, auth, roles
+8. **Polish** (28 tasks) — Lighthouse audit, SEO, sitemap, accessibility, deploy
+9. **Final Validation** (6 tasks) — screenshots, end-to-end verification, release
 
-**MVP = US1 + US2 + US3 + US5 (CMS needed to populate US1/US2)** = ~50 tasks.
+**MVP = US1 + US2 + US3 + US5 (CMS needed to populate US1/US2)** = ~108 tasks.
 
 ---
 
-## Open Questions
+## Open Questions — RESOLVED
 
-- **Q1**: Domain name — `rikas.id` or `rikastechnology.id` or other? [NEEDS CLARIFICATION]
-- **Q2**: Hosting — same VPS as Telegram bot, or separate? [NEEDS CLARIFICATION]
-- **Q3**: Admin email for inquiry notifications — same as Telegram bot admin email? [NEEDS CLARIFICATION]
+> All 3 questions resolved during ECC audit v2 (2026-06-25).
+
+- **Q1**: Domain name — **`rikas.id`** (primary), `www.rikas.id` alias ✅
+- **Q2**: Hosting — **Same VPS** as Telegram bot (MongoDB 512MB cap, total stack ≤1.5GB) ✅
+- **Q3**: Admin email — **Gmail SMTP** (`rikas.idn@gmail.com`) with app-specific password (500 emails/day) ✅
 
 ---
 
