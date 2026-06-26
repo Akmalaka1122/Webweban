@@ -1,16 +1,9 @@
 services:
   app:
     build: .
-    ports:
-      - 8080:80
+    ports: [8080:80]
   caddy:
     image: caddy:alpine
-    volumes:
-      - ./Caddyfile:/etc/caddy/Caddyfile
-      - caddy_data:/data
-    ports:
-      - 80:80
-      - 443:443
-
-volumes:
-  caddy_data:
+    volumes: [./Caddyfile:/etc/caddy/Caddyfile, caddy_data:/data]
+    ports: [80:80, 443:443]
+volumes: { caddy_data: {} }

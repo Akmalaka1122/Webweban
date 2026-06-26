@@ -1,322 +1,188 @@
-/* ============================================================
-   RIKAS INDO TECHNOLOGY - Main JavaScript
-   Scroll Animations · Mobile Menu · Smooth Nav · Stats Counter
-   ============================================================ */
+/* ==========================================================
+   RIKAS Esports — Main JavaScript
+   Interactions: scroll nav, mobile menu, scroll animations
+   ========================================================== */
 
-'use strict';
+document.addEventListener("DOMContentLoaded", () => {
 
-document.addEventListener('DOMContentLoaded', () => {
+    "use strict";
 
-  // ============================================================
-  // DOM REFS
-  // ============================================================
-  const navbar = document.getElementById('navbar');
-  const navToggle = document.getElementById('navToggle');
-  const navMenu = document.getElementById('navMenu');
-  const navLinks = document.querySelectorAll('.nav-link');
-  const backToTop = document.getElementById('backToTop');
-  const hero = document.getElementById('hero');
-  const statNumbers = document.querySelectorAll('.stat-number[data-count]');
+    // ----- ELEMENTS -----
+    const navbar = document.getElementById("navbar");
+    const toggleBtn = document.getElementById("navbarToggle");
+    const navLinks = document.getElementById("navbarNav");
+    const navAnchors = document.querySelectorAll(".navbar__link");
+    const animElements = document.querySelectorAll(".scroll-anim");
+    const statNumbers = document.querySelectorAll(".stats__number");
 
-  // ============================================================
-  // NAVBAR: Transparent → Glassmorphism on scroll (NAVI.gg-style)
-  // ============================================================
-  let lastScrollY = 0;
+    // ----- 1. NAVBAR SCROLL EFFECT -----
+    let lastScroll = 0;
 
-  function handleNavScroll() {
-    const scrollY = window.scrollY;
+    const onScroll = () => {
+        const currentScroll = window.scrollY;
 
-    if (scrollY > 80) {
-      navbar.classList.add('navbar-scrolled');
-    } else {
-      navbar.classList.remove('navbar-scrolled');
-    }
+        if (currentScroll > 20) {
+            navbar.classList.add("navbar--scrolled");
+        } else {
+            navbar.classList.remove("navbar--scrolled");
+        }
 
-    // Active nav link based on scroll position
-    updateActiveNavLink(scrollY);
+        lastScroll = currentScroll;
+    };
 
-    lastScrollY = scrollY;
-  }
+    window.addEventListener("scroll", onScroll, { passive: true });
+    // Run once on load to set correct initial state
+    onScroll();
 
-  function updateActiveNavLink(scrollY) {
-    const sections = document.querySelectorAll('section[id]');
+    // ----- 2. MOBILE MENU TOGGLE -----
+    const toggleMenu = (open) => {
+        const isOpen = open !== undefined ? open : !toggleBtn.classList.contains("active");
 
-    sections.forEach((section) => {
-      const sectionTop = section.offsetTop - navbar.offsetHeight - 100;
-      const sectionBottom = sectionTop + section.offsetHeight;
-      const sectionId = section.getAttribute('id');
+        toggleBtn.classList.toggle("active", isOpen);
+        navLinks.classList.toggle("active", isOpen);
+        toggleBtn.setAttribute("aria-expanded", isOpen);
+        document.body.style.overflow = isOpen ? "hidden" : "";
+    };
 
-      if (scrollY >= sectionTop && scrollY < sectionBottom) {
-        navLinks.forEach((link) => {
-          link.classList.remove('active');
-          if (link.getAttribute('href') === `#${sectionId}`) {
-            link.classList.add('active');
-          }
+    toggleBtn.addEventListener("click", () => toggleMenu());
+
+    // Close mobile menu on link click
+    navAnchors.forEach((link) => {
+        link.addEventListener("click", () => {
+            toggleMenu(false);
         });
-      }
     });
 
-    // If at the very top, activate 'Beranda'
-    if (scrollY < 100) {
-      navLinks.forEach((link) => {
-        link.classList.remove('active');
-        if (link.getAttribute('href') === '#hero') {
-          link.classList.add('active');
+    // Close mobile menu on click outside
+    document.addEventListener("click", (e) => {
+        if (
+            navLinks.classList.contains("active") &&
+            !navLinks.contains(e.target) &&
+            !toggleBtn.contains(e.target)
+        ) {
+            toggleMenu(false);
         }
-      });
-    }
-  }
-
-  // Throttled scroll handler for performance
-  let scrollTicking = false;
-  window.addEventListener('scroll', () => {
-    if (!scrollTicking) {
-      window.requestAnimationFrame(() => {
-        handleNavScroll();
-        scrollTicking = false;
-      });
-      scrollTicking = true;
-    }
-  });
-
-  // Initial call
-  handleNavScroll();
-
-  // ============================================================
-  // MOBILE MENU TOGGLE
-  // ============================================================
-  function toggleMobileMenu() {
-    const isActive = navMenu.classList.toggle('active');
-    navToggle.classList.toggle('active');
-    navToggle.setAttribute('aria-expanded', isActive);
-    document.body.style.overflow = isActive ? 'hidden' : '';
-  }
-
-  function closeMobileMenu() {
-    navMenu.classList.remove('active');
-    navToggle.classList.remove('active');
-    navToggle.setAttribute('aria-expanded', 'false');
-    document.body.style.overflow = '';
-  }
-
-  navToggle.addEventListener('click', toggleMobileMenu);
-
-  // Close menu on nav link click (mobile)
-  navLinks.forEach((link) => {
-    link.addEventListener('click', (e) => {
-      closeMobileMenu();
-
-      // Smooth scroll to target
-      const targetId = link.getAttribute('href');
-      if (targetId && targetId.startsWith('#')) {
-        e.preventDefault();
-        const targetEl = document.querySelector(targetId);
-        if (targetEl) {
-          const offsetTop =
-            targetEl.getBoundingClientRect().top +
-            window.scrollY -
-            navbar.offsetHeight;
-          window.scrollTo({
-            top: offsetTop,
-            behavior: 'smooth',
-          });
-        }
-      }
     });
-  });
 
-  // Close menu on Escape key
-  document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape' && navMenu.classList.contains('active')) {
-      closeMobileMenu();
-    }
-  });
+    // Close mobile menu on Escape key
+    document.addEventListener("keydown", (e) => {
+        if (e.key === "Escape" && navLinks.classList.contains("active")) {
+            toggleMenu(false);
+        }
+    });
 
-  // Close menu on outside click (mobile)
-  document.addEventListener('click', (e) => {
-    if (
-      navMenu.classList.contains('active') &&
-      !navMenu.contains(e.target) &&
-      !navToggle.contains(e.target)
-    ) {
-      closeMobileMenu();
-    }
-  });
-
-  // ============================================================
-  // SMOOTH SCROLL FOR NAV LINKS (desktop fallback)
-  // ============================================================
-  navLinks.forEach((link) => {
-    link.addEventListener('click', (e) => {
-      const targetId = link.getAttribute('href');
-      if (targetId && targetId.startsWith('#')) {
-        // Only prevent default if mobile menu handler didn't already
-        if (!navMenu.classList.contains('active')) {
-          e.preventDefault();
-          const targetEl = document.querySelector(targetId);
-          if (targetEl) {
-            const offsetTop =
-              targetEl.getBoundingClientRect().top +
-              window.scrollY -
-              navbar.offsetHeight;
-            window.scrollTo({
-              top: offsetTop,
-              behavior: 'smooth',
+    // ----- 3. SCROLL ANIMATIONS (Intersection Observer) -----
+    const animObserver = new IntersectionObserver(
+        (entries) => {
+            entries.forEach((entry) => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add("visible");
+                    // Unobserve after revealing to save resources
+                    animObserver.unobserve(entry.target);
+                }
             });
-          }
+        },
+        {
+            threshold: 0.1,
+            rootMargin: "0px 0px -40px 0px",
         }
-      }
-    });
-  });
-
-  // ============================================================
-  // INTERSECTION OBSERVER: Fade-in scroll animations
-  // ============================================================
-  const fadeElements = document.querySelectorAll('.fade-in');
-
-  const fadeObserver = new IntersectionObserver(
-    (entries) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          // Apply staggered delay via the inline style if set
-          const delay = entry.target.style.transitionDelay || '0s';
-          entry.target.style.transitionDelay = delay;
-          entry.target.classList.add('visible');
-          // Unobserve after animation fires
-          fadeObserver.unobserve(entry.target);
-        }
-      });
-    },
-    {
-      threshold: 0.15,
-      rootMargin: '0px 0px -50px 0px',
-    }
-  );
-
-  fadeElements.forEach((el) => fadeObserver.observe(el));
-
-  // Also observe glass cards for subtle extra stagger
-  const glassCards = document.querySelectorAll('.glass-card');
-  glassCards.forEach((card) => {
-    if (!card.classList.contains('fade-in')) {
-      // Glass cards inside sections already have .fade-in,
-      // but observe standalone ones too
-      fadeObserver.observe(card);
-    }
-  });
-
-  // ============================================================
-  // BACK TO TOP BUTTON
-  // ============================================================
-  function handleBackToTop() {
-    if (window.scrollY > hero.offsetHeight * 0.6) {
-      backToTop.classList.add('visible');
-    } else {
-      backToTop.classList.remove('visible');
-    }
-  }
-
-  window.addEventListener('scroll', () => {
-    handleBackToTop();
-  });
-
-  backToTop.addEventListener('click', () => {
-    window.scrollTo({
-      top: 0,
-      behavior: 'smooth',
-    });
-  });
-
-  // ============================================================
-  // STATS COUNTER ANIMATION
-  // ============================================================
-  function animateCounters() {
-    statNumbers.forEach((stat) => {
-      const target = parseInt(stat.getAttribute('data-count'), 10);
-      const duration = 2000; // ms
-      const startTime = performance.now();
-      let animated = false;
-
-      function updateCounter(currentTime) {
-        const elapsed = currentTime - startTime;
-        const progress = Math.min(elapsed / duration, 1);
-        // Ease-out cubic
-        const easeOut = 1 - Math.pow(1 - progress, 3);
-        const currentValue = Math.round(easeOut * target);
-
-        // Format with + if target >= 1000
-        if (target >= 1000) {
-          stat.textContent = currentValue + '+';
-        } else {
-          stat.textContent = currentValue;
-        }
-
-        if (progress < 1) {
-          requestAnimationFrame(updateCounter);
-        } else {
-          // Ensure final value is exact
-          if (target >= 1000) {
-            stat.textContent = target + '+';
-          } else {
-            stat.textContent = target;
-          }
-          animated = true;
-        }
-      }
-
-      requestAnimationFrame(updateCounter);
-    });
-  }
-
-  // Observe stats section to trigger counter animation
-  const statsSection = document.querySelector('.contact-stats');
-  if (statsSection) {
-    const statsObserver = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            animateCounters();
-            statsObserver.unobserve(entry.target);
-          }
-        });
-      },
-      { threshold: 0.3 }
     );
-    statsObserver.observe(statsSection);
-  }
 
-  // ============================================================
-  // PARALLAX EFFECT ON HERO (subtle mouse movement)
-  // ============================================================
-  const heroContent = document.querySelector('.hero-content');
-  if (heroContent && window.innerWidth > 768) {
-    document.addEventListener('mousemove', (e) => {
-      const x = (e.clientX / window.innerWidth - 0.5) * 6;
-      const y = (e.clientY / window.innerHeight - 0.5) * 6;
-      heroContent.style.transform = `translate(${x}px, ${y}px)`;
+    animElements.forEach((el) => animObserver.observe(el));
+
+    // ----- 4. STAT COUNTER ANIMATION -----
+    const counterObserver = new IntersectionObserver(
+        (entries) => {
+            entries.forEach((entry) => {
+                if (entry.isIntersecting) {
+                    const el = entry.target;
+                    const target = parseInt(el.getAttribute("data-target"), 10);
+                    animateCounter(el, target);
+                    counterObserver.unobserve(el);
+                }
+            });
+        },
+        { threshold: 0.5 }
+    );
+
+    statNumbers.forEach((el) => counterObserver.observe(el));
+
+    /**
+     * Animate a number element from 0 to its target value.
+     * @param {HTMLElement} el - The element to update.
+     * @param {number} target - The final number.
+     * @param {number} duration - Animation duration in ms.
+     */
+    const animateCounter = (el, target, duration = 1200) => {
+        const start = 0;
+        const startTime = performance.now();
+
+        const easeOutQuad = (t) => t * (2 - t); // smooth deceleration
+
+        const update = (currentTime) => {
+            const elapsed = currentTime - startTime;
+            const progress = Math.min(elapsed / duration, 1);
+            const easedProgress = easeOutQuad(progress);
+            const current = Math.floor(start + (target - start) * easedProgress);
+
+            el.textContent = current;
+
+            if (progress < 1) {
+                requestAnimationFrame(update);
+            } else {
+                el.textContent = target; // ensure exact final value
+            }
+        };
+
+        requestAnimationFrame(update);
+    };
+
+    // ----- 5. SMOOTH SCROLL FOR ANCHOR LINKS (fallback) -----
+    document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
+        anchor.addEventListener("click", (e) => {
+            const href = anchor.getAttribute("href");
+            if (href === "#") return;
+
+            const targetEl = document.querySelector(href);
+            if (!targetEl) return;
+
+            e.preventDefault();
+
+            const offset = navbar.offsetHeight;
+            const targetPosition =
+                targetEl.getBoundingClientRect().top + window.scrollY - offset;
+
+            window.scrollTo({
+                top: targetPosition,
+                behavior: "smooth",
+            });
+        });
     });
-  }
 
-  // ============================================================
-  // RESIZE HANDLER: Clear parallax transform on mobile
-  // ============================================================
-  let resizeTimeout;
-  window.addEventListener('resize', () => {
-    clearTimeout(resizeTimeout);
-    resizeTimeout = setTimeout(() => {
-      if (window.innerWidth <= 768 && heroContent) {
-        heroContent.style.transform = '';
-      }
-    }, 200);
-  });
+    // ----- 6. KEYBOARD NAVIGATION (optional enhancement) -----
+    // Trap focus inside mobile menu when open
+    const trapFocus = (e) => {
+        if (!navLinks.classList.contains("active")) return;
 
-  // ============================================================
-  // CONSOLE LOGO (developer easter egg)
-  // ============================================================
-  console.log(
-    '%c RIKAS INDO TECHNOLOGY %c',
-    'background: linear-gradient(135deg, #4facfe, #00f2fe); color: #fff; font-size: 18px; font-weight: bold; padding: 10px 20px; border-radius: 8px;',
-    'background: none; font-size: 12px;'
-  );
-  console.log('🚀 Event & Komunitas Esports Jawa Tengah');
-});
+        const focusableElements = navLinks.querySelectorAll(
+            'a[href], button:not([disabled])'
+        );
+        if (focusableElements.length === 0) return;
+
+        const firstFocusable = focusableElements[0];
+        const lastFocusable = focusableElements[focusableElements.length - 1];
+
+        if (e.key === "Tab") {
+            if (e.shiftKey && document.activeElement === firstFocusable) {
+                e.preventDefault();
+                lastFocusable.focus();
+            } else if (!e.shiftKey && document.activeElement === lastFocusable) {
+                e.preventDefault();
+                firstFocusable.focus();
+            }
+        }
+    };
+
+    document.addEventListener("keydown", trapFocus);
+
+}); // DOMContentLoaded

@@ -1,44 +1,26 @@
-# RIKAS INDO TECHNOLOGY
+# RIKAS Website
 
-Official company website for **RIKAS INDO TECHNOLOGY**.
+**RIKAS INDO TECHNOLOGY** — corporate website.
 
-## Tech Stack
-
-- **Frontend:** Static HTML/CSS/JS (Nginx served)
-- **Reverse Proxy:** Caddy (auto HTTPS)
-- **Containerization:** Docker & Docker Compose
-- **Design Reference:** NAVI.gg (clean, modern esports-inspired aesthetic)
+Design inspiration: Team Liquid (clean, modern, navy-and-white esports aesthetic).
 
 ## How to Run
 
+### With Docker Compose (recommended)
+
 ```bash
-docker compose up -d
+docker compose up --build -d
 ```
 
-This starts two services:
-- **app** — Nginx container serving the static site on port `8080`
-- **caddy** — Caddy reverse proxy on ports `80` (HTTP) and `443` (HTTPS) with automatic TLS
+This starts:
+- **app** — nginx-alpine serving the static site on port `8080`
+- **caddy** — reverse proxy with automatic HTTPS on ports `80` and `443`
 
-For local development without Caddy, access the site directly at `http://localhost:8080`.
+### Standalone with nginx
 
-## Project Structure
-
-```
-rikas-website/
-├── assets/           # Static assets (images, icons)
-├── index.html        # Main entry point
-├── styles/           # CSS files
-├── ...
-├── Dockerfile        # Nginx container definition
-├── Caddyfile         # Caddy reverse proxy configuration
-├── docker-compose.yml
-└── README.md
+```bash
+docker build -t rikas-site .
+docker run -p 8080:80 rikas-site
 ```
 
-## Brand
-
-**RIKAS INDO TECHNOLOGY** — delivering innovative technology solutions with a modern, clean design ethos.
-
-## Design Reference
-
-Design language inspired by [NAVI.gg](https://navi.gg) — crisp layout, bold typography, and a dark/navy color palette.
+Then visit http://localhost:8080.
