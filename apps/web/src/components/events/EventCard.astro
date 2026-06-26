@@ -1,0 +1,78 @@
+---
+import Card from '../ui/Card.astro';
+import Badge from '../ui/Badge.astro';
+
+interface Props {
+  title: string;
+  slug: string;
+  game?: string;
+  date?: string;
+  location?: string;
+  status?: string;
+  prize_pool?: string;
+  featured_image?: { url?: string; sizes?: { card?: { url: string } } };
+}
+
+const { title, slug, game, date, location, status, prize_pool, featured_image } = Astro.props;
+const img = featured_image?.sizes?.card?.url || featured_image?.url || '/placeholder-event.jpg';
+const statusMap: Record<string, { label: string; variant: string }> = {
+  upcoming: { label: 'Mendatang', variant: 'accent' },
+  ongoing: { label: 'Berlangsung', variant: 'success' },
+  completed: { label: 'Selesai', variant: 'muted' },
+  cancelled: { label: 'Batal', variant: 'default' },
+};
+const s = statusMap[status || 'upcoming'] || statusMap.upcoming;
+---
+
+<Card href={`/event/${slug}`} class="event-card">
+  <div class="event-card-img">
+    <img src={img} alt={title} loading="lazy" />
+  </div>
+  <div class="event-card-body">
+    <div class="event-card-tags">
+      <Badge variant={s.variant as any}>{s.label}</Badge>
+      {game && <Badge variant="muted">{game}</Badge>}
+    </div>
+    <h3>{title}</h3>
+    <div class="event-card-meta">
+      {date && <span>📅 {new Date(date).toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' })}</span>}
+      {location && <span>📍 {location}</span>}
+      {prize_pool && <span>🏆 {prize_pool}</span>}
+    </div>
+  </div>
+</Card>
+
+<style>
+  .event-card-img {
+    border-radius: var(--radius);
+    overflow: hidden;
+    margin-bottom: 1rem;
+    aspect-ratio: 16/9;
+  }
+  .event-card-img img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s;
+  }
+  .event-card:hover .event-card-img img {
+    transform: scale(1.05);
+  }
+  .event-card-tags {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+    margin-bottom: 0.75rem;
+  }
+  .event-card h3 {
+    font-size: 1.1rem;
+    margin-bottom: 0.5rem;
+  }
+  .event-card-meta {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+    font-size: 0.85rem;
+    color: var(--color-text-muted);
+  }
+</style>

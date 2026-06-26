@@ -78,8 +78,8 @@ const stats = [
         event berkualitas, komunitas kuat, dan inovasi berkelanjutan.
       </p>
       <div class="hero-actions">
-        <Button href="/events" variant="primary" size="lg">Lihat Event</Button>
-        <Button href="/contact" variant="secondary" size="lg">Hubungi Kami</Button>
+        <Button href="/event" variant="primary" size="lg">Lihat Event</Button>
+        <Button href="/kontak" variant="secondary" size="lg">Hubungi Kami</Button>
       </div>
     </div>
   </section>
@@ -133,7 +133,7 @@ const stats = [
     <div class="container">
       <div class="flex justify-between items-center mb-4" style="flex-wrap: wrap; gap: 1rem;">
         <h2>Event <span class="text-accent">Mendatang</span></h2>
-        <Button href="/events" variant="ghost" size="sm">Lihat Semua →</Button>
+        <Button href="/event" variant="ghost" size="sm">Lihat Semua →</Button>
       </div>
       <div class="events-grid">
         {upcomingEvents.map((e) => (
@@ -147,7 +147,7 @@ const stats = [
               <span>📅 {e.date}</span>
               <span>📍 {e.location}</span>
             </div>
-            <Button href={`/events`} variant="secondary" size="sm" class="mt-2">
+            <Button href={`/event`} variant="secondary" size="sm" class="mt-2">
               Lihat Detail
             </Button>
           </Card>
@@ -181,7 +181,7 @@ const stats = [
         <Button href="https://wa.me/6281234567890" variant="primary" size="lg">
           💬 WhatsApp
         </Button>
-        <Button href="/contact" variant="secondary" size="lg">
+        <Button href="/kontak" variant="secondary" size="lg">
           Formulir Kontak
         </Button>
       </div>

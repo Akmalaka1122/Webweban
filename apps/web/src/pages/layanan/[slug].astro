@@ -1,0 +1,99 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Navbar from '../../components/brand/Navbar.astro';
+import Footer from '../../components/brand/Footer.astro';
+import Button from '../../components/ui/Button.astro';
+import TeamMemberCard from '../../components/team/TeamMemberCard.astro';
+import { getServiceBySlug } from '../../lib/cms';
+
+const { slug } = Astro.params;
+let service: any = null;
+try {
+  service = await getServiceBySlug(slug!);
+} catch {}
+
+if (!service) {
+  return Astro.redirect('/layanan');
+}
+---
+
+<BaseLayout title={service.title} description={`Layanan ${service.title} dari RIKAS INDO TECHNOLOGY`}>
+  <Navbar slot="header" />
+
+  <section class="section">
+    <div class="container">
+      <a href="/layanan" class="back-link">← Kembali ke Layanan</a>
+
+      <div class="service-header mt-2">
+        {service.icon && <span class="service-icon-lg">{service.icon}</span>}
+        <h1>{service.title}</h1>
+      </div>
+
+      {service.description && (
+        <div class="service-content mt-3" set:html={service.description} />
+      )}
+
+      {service.assigned_team && service.assigned_team.length > 0 && (
+        <div class="service-team mt-4">
+          <h2>Tim <span class="text-accent">Kami</span></h2>
+          <div class="team-grid mt-2">
+            {service.assigned_team.map((t: any) => {
+              const member = t.member || t;
+              return (
+                <TeamMemberCard
+                  name={member.name}
+                  slug={member.slug}
+                  role={member.role}
+                  department={member.department}
+                  photo={member.photo}
+                />
+              );
+            })}
+          </div>
+        </div>
+      )}
+
+      <div class="service-cta mt-4 text-center">
+        <Button href="/kontak" variant="primary" size="lg">Pesan Layanan</Button>
+        <Button href="https://wa.me/6281234567890" variant="secondary" size="lg">💬 WhatsApp</Button>
+      </div>
+    </div>
+  </section>
+
+  <Footer slot="footer" />
+</BaseLayout>
+
+<style>
+  .back-link {
+    color: var(--color-text-muted);
+    font-size: 0.9rem;
+    transition: color 0.2s;
+  }
+  .back-link:hover { color: var(--color-accent); }
+  .service-header {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+  .service-icon-lg { font-size: 3rem; }
+  .service-content {
+    color: var(--color-text-muted);
+    line-height: 1.8;
+    max-width: 800px;
+  }
+  .team-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1.5rem;
+  }
+  .service-cta {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    flex-wrap: wrap;
+    padding: 2rem 0;
+  }
+  @media (max-width: 768px) {
+    .team-grid { grid-template-columns: repeat(2, 1fr); }
+  }
+</style>

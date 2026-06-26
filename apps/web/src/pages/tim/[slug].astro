@@ -1,0 +1,149 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Navbar from '../../components/brand/Navbar.astro';
+import Footer from '../../components/brand/Footer.astro';
+import { getTeamMemberBySlug } from '../../lib/cms';
+
+const { slug } = Astro.params;
+let member: any = null;
+try {
+  member = await getTeamMemberBySlug(slug!);
+} catch {}
+
+if (!member) {
+  return Astro.redirect('/tim');
+}
+
+const img = member.photo?.sizes?.hero?.url || member.photo?.url;
+const initials = member.name.split(' ').map((w: string) => w[0]).join('').slice(0, 2).toUpperCase();
+const socialLinks = member.social_links || {};
+---
+
+<BaseLayout title={member.name} description={`${member.name} — ${member.role || 'Tim RIKAS'} di RIKAS INDO TECHNOLOGY`}>
+  <Navbar slot="header" />
+
+  <section class="section">
+    <div class="container">
+      <a href="/tim" class="back-link">← Kembali ke Tim</a>
+
+      <div class="profile mt-3">
+        <div class="profile-photo">
+          {img ? (
+            <img src={img} alt={member.name} />
+          ) : (
+            <span class="profile-initials">{initials}</span>
+          )}
+        </div>
+
+        <div class="profile-info">
+          <h1>{member.name}</h1>
+          {member.role && <p class="profile-role">{member.role}</p>}
+          {member.department && <span class="profile-dept">{member.department}</span>}
+
+          {member.bio && (
+            <div class="profile-bio mt-3" set:html={member.bio} />
+          )}
+
+          {Object.keys(socialLinks).length > 0 && (
+            <div class="profile-social mt-3">
+              {socialLinks.instagram && <a href={socialLinks.instagram} target="_blank" rel="noopener">Instagram</a>}
+              {socialLinks.twitter && <a href={socialLinks.twitter} target="_blank" rel="noopener">Twitter</a>}
+              {socialLinks.youtube && <a href={socialLinks.youtube} target="_blank" rel="noopener">YouTube</a>}
+              {socialLinks.tiktok && <a href={socialLinks.tiktok} target="_blank" rel="noopener">TikTok</a>}
+            </div>
+          )}
+
+          {member.portfolio && (
+            <div class="profile-portfolio mt-3">
+              <h3>Portofolio</h3>
+              <p class="mt-1">{member.portfolio}</p>
+            </div>
+          )}
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <Footer slot="footer" />
+</BaseLayout>
+
+<style>
+  .back-link {
+    color: var(--color-text-muted);
+    font-size: 0.9rem;
+    transition: color 0.2s;
+  }
+  .back-link:hover { color: var(--color-accent); }
+  .profile {
+    display: grid;
+    grid-template-columns: 250px 1fr;
+    gap: 3rem;
+    align-items: start;
+  }
+  .profile-photo {
+    width: 250px;
+    height: 250px;
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    background: var(--color-primary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .profile-photo img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  .profile-initials {
+    font-size: 4rem;
+    font-weight: 900;
+    color: var(--color-accent);
+  }
+  .profile-role {
+    color: var(--color-accent);
+    font-size: 1.1rem;
+    font-weight: 500;
+    margin-top: 0.25rem;
+  }
+  .profile-dept {
+    font-size: 0.85rem;
+    color: var(--color-text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+  .profile-bio {
+    color: var(--color-text-muted);
+    line-height: 1.8;
+  }
+  .profile-social {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+  .profile-social a {
+    padding: 0.5rem 1rem;
+    background: var(--color-glass);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius);
+    font-size: 0.85rem;
+    color: var(--color-text-muted);
+    transition: all 0.2s;
+  }
+  .profile-social a:hover {
+    color: var(--color-accent);
+    border-color: rgba(249, 115, 22, 0.3);
+  }
+  @media (max-width: 768px) {
+    .profile {
+      grid-template-columns: 1fr;
+      text-align: center;
+    }
+    .profile-photo {
+      width: 180px;
+      height: 180px;
+      margin: 0 auto;
+    }
+    .profile-social { justify-content: center; }
+  }
+</style>

@@ -1,0 +1,40 @@
+---
+import Card from '../ui/Card.astro';
+
+interface Props {
+  title: string;
+  slug: string;
+  icon?: string;
+  description?: string;
+}
+const { title, slug, icon, description } = Astro.props;
+---
+
+<Card href={`/layanan/${slug}`} class="service-card">
+  {icon && <span class="service-icon">{icon}</span>}
+  <h3>{title}</h3>
+  {description && <p class="mt-1 text-sm">{description}</p>}
+  <span class="service-link mt-2">Pelajari Lebih →</span>
+</Card>
+
+<style>
+  .service-card {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .service-icon {
+    font-size: 2.5rem;
+    display: block;
+    margin-bottom: 0.5rem;
+  }
+  .service-card h3 {
+    font-size: 1.1rem;
+  }
+  .service-link {
+    font-size: 0.85rem;
+    color: var(--color-accent);
+    font-weight: 500;
+  }
+</style>

@@ -1,0 +1,99 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Navbar from '../../components/brand/Navbar.astro';
+import Footer from '../../components/brand/Footer.astro';
+import TeamMemberCard from '../../components/team/TeamMemberCard.astro';
+import { getTeamMembers } from '../../lib/cms';
+
+let members: any[] = [];
+try {
+  const res = await getTeamMembers();
+  members = res.docs || [];
+} catch {}
+
+const departments = [
+  { key: 'talent', label: 'Talent' },
+  { key: 'production', label: 'Production' },
+  { key: 'operations', label: 'Operations' },
+];
+
+const grouped = departments.map(d => ({
+  ...d,
+  members: members.filter(m => m.department === d.key),
+})).filter(g => g.members.length > 0);
+---
+
+<BaseLayout title="Tim Kami" description="Kenali tim RIKAS INDO TECHNOLOGY — Caster, MC, Cosplayer, Desainer, Videografer esports profesional">
+  <Navbar slot="header" />
+
+  <section class="section">
+    <div class="container">
+      <h1>Tim <span class="text-accent">Kami</span></h1>
+      <p class="mt-1">Orang-orang di balik kesuksesan event RIKAS.</p>
+
+      {members.length === 0 ? (
+        <div class="empty-state mt-4">
+          <p>Informasi tim segera hadir.</p>
+        </div>
+      ) : grouped.length > 0 ? (
+        grouped.map(dept => (
+          <div class="dept-section mt-4">
+            <h2>{dept.label}</h2>
+            <div class="team-grid mt-2">
+              {dept.members.map((m: any) => (
+                <TeamMemberCard
+                  name={m.name}
+                  slug={m.slug}
+                  role={m.role}
+                  department={m.department}
+                  photo={m.photo}
+                />
+              ))}
+            </div>
+          </div>
+        ))
+      ) : (
+        <div class="team-grid mt-4">
+          {members.map((m: any) => (
+            <TeamMemberCard
+              name={m.name}
+              slug={m.slug}
+              role={m.role}
+              department={m.department}
+              photo={m.photo}
+            />
+          ))}
+        </div>
+      )}
+    </div>
+  </section>
+
+  <Footer slot="footer" />
+</BaseLayout>
+
+<style>
+  .dept-section h2 {
+    font-size: 1.25rem;
+    color: var(--color-accent);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    border-bottom: 1px solid var(--color-border);
+    padding-bottom: 0.5rem;
+  }
+  .team-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1.5rem;
+  }
+  .empty-state {
+    text-align: center;
+    padding: 4rem 1rem;
+    color: var(--color-text-muted);
+  }
+  @media (max-width: 1024px) {
+    .team-grid { grid-template-columns: repeat(3, 1fr); }
+  }
+  @media (max-width: 768px) {
+    .team-grid { grid-template-columns: repeat(2, 1fr); }
+  }
+</style>

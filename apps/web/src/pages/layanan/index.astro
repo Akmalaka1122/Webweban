@@ -1,0 +1,94 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Navbar from '../../components/brand/Navbar.astro';
+import Footer from '../../components/brand/Footer.astro';
+import ServiceCard from '../../components/services/ServiceCard.astro';
+import Button from '../../components/ui/Button.astro';
+import { getServices } from '../../lib/cms';
+
+let services: any[] = [];
+try {
+  const res = await getServices();
+  services = res.docs || [];
+} catch {}
+
+// Fallback static services if CMS empty
+if (services.length === 0) {
+  services = [
+    { title: 'Tournament Organizer', slug: 'tournament-organizer', icon: '🏆', description: 'Penyelenggaraan turnamen esports profesional skala regional hingga nasional.' },
+    { title: 'Live Streaming', slug: 'live-streaming', icon: '📡', description: 'Layanan siaran langsung turnamen dan acara dengan kualitas broadcast.' },
+    { title: 'Caster & MC', slug: 'caster-mc', icon: '🎙️', description: 'Talent caster dan MC berpengalaman untuk event esports.' },
+    { title: 'Cosplay', slug: 'cosplay', icon: '🎭', description: 'Perfomer cosplay profesional untuk memeriahkan event.' },
+    { title: 'Desain & Video', slug: 'desain-video', icon: '🎨', description: 'Produksi konten visual, grafis, dan video profesional.' },
+  ];
+}
+---
+
+<BaseLayout title="Layanan" description="Layanan RIKAS INDO TECHNOLOGY — Tournament Organizer, Live Streaming, Caster, Cosplay, Desain & Video di Jawa Tengah">
+  <Navbar slot="header" />
+
+  <section class="section">
+    <div class="container">
+      <h1>Layanan <span class="text-accent">Kami</span></h1>
+      <p class="mt-1">Solusi lengkap untuk kebutuhan event esports dan komunitas gaming Anda.</p>
+
+      <div class="services-grid mt-4">
+        {services.map((s) => (
+          <ServiceCard title={s.title} slug={s.slug} icon={s.icon} description={s.description} />
+        ))}
+      </div>
+
+      <div class="coverage mt-4">
+        <h2>Area <span class="text-accent">Layanan</span></h2>
+        <div class="coverage-locations mt-2">
+          <span class="location-tag">📍 Semarang</span>
+          <span class="location-tag">📍 Solo</span>
+          <span class="location-tag">📍 Kendal</span>
+          <span class="location-tag">📍 Pati</span>
+        </div>
+      </div>
+
+      <div class="services-cta mt-4 text-center">
+        <p class="mb-2">Butuh layanan untuk event Anda?</p>
+        <Button href="/kontak" variant="primary" size="lg">Hubungi Kami</Button>
+      </div>
+    </div>
+  </section>
+
+  <Footer slot="footer" />
+</BaseLayout>
+
+<style>
+  .services-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+  }
+  .coverage {
+    padding: 3rem 0;
+    text-align: center;
+  }
+  .coverage-locations {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+  .location-tag {
+    padding: 0.75rem 1.5rem;
+    background: var(--color-card);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    font-size: 0.9rem;
+    color: var(--color-text-muted);
+  }
+  .services-cta {
+    padding: 3rem 0;
+  }
+  @media (max-width: 1024px) {
+    .services-grid { grid-template-columns: repeat(2, 1fr); }
+  }
+  @media (max-width: 768px) {
+    .services-grid { grid-template-columns: 1fr; }
+  }
+</style>

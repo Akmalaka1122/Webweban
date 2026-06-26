@@ -1,0 +1,134 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Navbar from '../../components/brand/Navbar.astro';
+import Footer from '../../components/brand/Footer.astro';
+import { getArticleBySlug } from '../../lib/cms';
+
+const { slug } = Astro.params;
+let article: any = null;
+try {
+  article = await getArticleBySlug(slug!);
+} catch {}
+
+if (!article) {
+  return Astro.redirect('/berita');
+}
+
+const img = article.featured_image?.sizes?.hero?.url || article.featured_image?.url;
+const dateStr = article.published_at ? new Date(article.published_at).toLocaleDateString('id-ID', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' }) : '';
+---
+
+<BaseLayout title={article.title} description={article.excerpt || `Berita dari RIKAS INDO TECHNOLOGY: ${article.title}`}>
+  <Navbar slot="header" />
+
+  <article class="section">
+    <div class="container">
+      <a href="/berita" class="back-link">← Kembali ke Berita</a>
+
+      {img && (
+        <div class="article-hero mt-2">
+          <img src={img} alt={article.title} />
+        </div>
+      )}
+
+      <div class="article-content">
+        <h1>{article.title}</h1>
+        <div class="article-meta">
+          {dateStr && <time>{dateStr}</time>}
+          {article.author?.name && <span>· {article.author.name}</span>}
+        </div>
+
+        {article.content && (
+          <div class="article-body mt-3" set:html={article.content} />
+        )}
+      </div>
+
+      <div class="share-section mt-4">
+        <h3>Bagikan</h3>
+        <div class="share-links">
+          <a href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(article.title)}&url=${encodeURIComponent(Astro.url.href)}`} target="_blank" rel="noopener">Twitter</a>
+          <a href={`https://wa.me/?text=${encodeURIComponent(article.title + ' ' + Astro.url.href)}`} target="_blank" rel="noopener">WhatsApp</a>
+        </div>
+      </div>
+    </div>
+  </article>
+
+  <Footer slot="footer" />
+</BaseLayout>
+
+<style>
+  .back-link {
+    color: var(--color-text-muted);
+    font-size: 0.9rem;
+    transition: color 0.2s;
+  }
+  .back-link:hover { color: var(--color-accent); }
+  .article-hero {
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    margin-bottom: 2rem;
+  }
+  .article-hero img {
+    width: 100%;
+    height: 400px;
+    object-fit: cover;
+  }
+  .article-content {
+    max-width: 750px;
+    margin: 0 auto;
+  }
+  .article-meta {
+    display: flex;
+    gap: 0.5rem;
+    font-size: 0.85rem;
+    color: var(--color-text-muted);
+    margin-top: 0.5rem;
+  }
+  .article-body {
+    color: var(--color-text-muted);
+    line-height: 1.8;
+  }
+  .article-body :global(h2) {
+    color: var(--color-text);
+    margin-top: 2rem;
+    margin-bottom: 0.75rem;
+  }
+  .article-body :global(p) {
+    margin-bottom: 1rem;
+    max-width: none;
+  }
+  .article-body :global(img) {
+    border-radius: var(--radius);
+    margin: 1.5rem 0;
+  }
+  .share-section {
+    max-width: 750px;
+    margin: 0 auto;
+    padding-top: 2rem;
+    border-top: 1px solid var(--color-border);
+  }
+  .share-section h3 {
+    font-size: 1rem;
+    margin-bottom: 0.75rem;
+  }
+  .share-links {
+    display: flex;
+    gap: 0.75rem;
+  }
+  .share-links a {
+    padding: 0.5rem 1rem;
+    background: var(--color-glass);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius);
+    font-size: 0.85rem;
+    color: var(--color-text-muted);
+    transition: all 0.2s;
+  }
+  .share-links a:hover {
+    color: var(--color-accent);
+    border-color: rgba(249, 115, 22, 0.3);
+  }
+  @media (max-width: 768px) {
+    .article-hero img { height: 250px; }
+  }
+</style>

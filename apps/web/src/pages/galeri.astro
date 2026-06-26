@@ -1,0 +1,168 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Navbar from '../components/brand/Navbar.astro';
+import Footer from '../components/brand/Footer.astro';
+import { getGallery } from '../lib/cms';
+
+let photos: any[] = [];
+try {
+  const res = await getGallery({ limit: 50 });
+  photos = res.docs || [];
+} catch {}
+---
+
+<BaseLayout title="Galeri" description="Galeri foto event esports RIKAS INDO TECHNOLOGY">
+  <Navbar slot="header" />
+
+  <section class="section">
+    <div class="container">
+      <h1>Galeri <span class="text-accent">Foto</span></h1>
+      <p class="mt-1">Dokumentasi event dan kegiatan RIKAS.</p>
+
+      {photos.length === 0 ? (
+        <div class="empty-state mt-4">
+          <p>Belum ada foto yang diunggah.</p>
+        </div>
+      ) : (
+        <div class="gallery-grid mt-4">
+          {photos.map((p, i) => {
+            const url = p.image?.sizes?.card?.url || p.image?.url;
+            return url ? (
+              <button class="gallery-item" data-index={i} data-url={url} data-caption={p.caption || ''}>
+                <img src={url} alt={p.caption || 'Foto event RIKAS'} loading="lazy" />
+                {p.caption && <span class="gallery-caption">{p.caption}</span>}
+              </button>
+            ) : null;
+          })}
+        </div>
+      )}
+    </div>
+  </section>
+
+  <!-- Lightbox -->
+  <div id="lightbox" class="lightbox" style="display:none;" role="dialog" aria-label="Foto diperbesar">
+    <button class="lightbox-close" aria-label="Tutup">×</button>
+    <img id="lightbox-img" src="" alt="" />
+    <p id="lightbox-caption" class="lightbox-caption"></p>
+  </div>
+
+  <Footer slot="footer" />
+</BaseLayout>
+
+<script>
+const lightbox = document.getElementById('lightbox');
+const lbImg = document.getElementById('lightbox-img') as HTMLImageElement;
+const lbCaption = document.getElementById('lightbox-caption');
+
+document.querySelectorAll('.gallery-item').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const url = btn.getAttribute('data-url')!;
+    const caption = btn.getAttribute('data-caption') || '';
+    lbImg.src = url;
+    lbImg.alt = caption;
+    lbCaption!.textContent = caption;
+    lightbox!.style.display = 'flex';
+    document.body.style.overflow = 'hidden';
+  });
+});
+
+lightbox?.addEventListener('click', (e) => {
+  if (e.target === lightbox || (e.target as Element).classList.contains('lightbox-close')) {
+    lightbox.style.display = 'none';
+    document.body.style.overflow = '';
+  }
+});
+
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape' && lightbox?.style.display === 'flex') {
+    lightbox.style.display = 'none';
+    document.body.style.overflow = '';
+  }
+});
+</script>
+
+<style>
+  .gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0.75rem;
+  }
+  .gallery-item {
+    position: relative;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    border-radius: var(--radius);
+    overflow: hidden;
+    background: none;
+    aspect-ratio: 1;
+  }
+  .gallery-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s;
+  }
+  .gallery-item:hover img {
+    transform: scale(1.08);
+  }
+  .gallery-caption {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 0.5rem 0.75rem;
+    background: linear-gradient(transparent, rgba(0,0,0,0.7));
+    font-size: 0.75rem;
+    color: #fff;
+    opacity: 0;
+    transition: opacity 0.2s;
+  }
+  .gallery-item:hover .gallery-caption {
+    opacity: 1;
+  }
+  .lightbox {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.9);
+    z-index: 9999;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+  }
+  .lightbox img {
+    max-width: 90vw;
+    max-height: 80vh;
+    object-fit: contain;
+    border-radius: var(--radius);
+  }
+  .lightbox-caption {
+    color: var(--color-text-muted);
+    font-size: 0.9rem;
+    margin-top: 1rem;
+  }
+  .lightbox-close {
+    position: absolute;
+    top: 1rem;
+    right: 1.5rem;
+    background: none;
+    border: none;
+    color: #fff;
+    font-size: 2.5rem;
+    cursor: pointer;
+    line-height: 1;
+  }
+  .empty-state {
+    text-align: center;
+    padding: 4rem 1rem;
+    color: var(--color-text-muted);
+  }
+  @media (max-width: 1024px) {
+    .gallery-grid { grid-template-columns: repeat(3, 1fr); }
+  }
+  @media (max-width: 768px) {
+    .gallery-grid { grid-template-columns: repeat(2, 1fr); }
+  }
+</style>

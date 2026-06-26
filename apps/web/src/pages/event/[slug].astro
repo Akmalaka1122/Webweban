@@ -1,0 +1,173 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Navbar from '../../components/brand/Navbar.astro';
+import Footer from '../../components/brand/Footer.astro';
+import Badge from '../../components/ui/Badge.astro';
+import WhatsAppCTA from '../../components/events/WhatsAppCTA.astro';
+import { getEventBySlug } from '../../lib/cms';
+
+const { slug } = Astro.params;
+let event: any = null;
+try {
+  event = await getEventBySlug(slug!);
+} catch {}
+
+if (!event) {
+  return Astro.redirect('/event');
+}
+
+const statusMap: Record<string, { label: string; variant: string }> = {
+  upcoming: { label: 'Mendatang', variant: 'accent' },
+  ongoing: { label: 'Berlangsung', variant: 'success' },
+  completed: { label: 'Selesai', variant: 'muted' },
+  cancelled: { label: 'Batal', variant: 'default' },
+};
+const s = statusMap[event.status || 'upcoming'] || statusMap.upcoming;
+const dateStr = event.date ? new Date(event.date).toLocaleDateString('id-ID', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' }) : '';
+const img = event.featured_image?.sizes?.hero?.url || event.featured_image?.url || '/placeholder-event.jpg';
+---
+
+<BaseLayout title={event.title} description={`Event ${event.title} oleh RIKAS INDO TECHNOLOGY — ${event.game || 'Esports'} di ${event.location || 'Jawa Tengah'}`}>
+  <Navbar slot="header" />
+
+  <section class="section event-detail">
+    <div class="container">
+      <div class="event-hero">
+        <img src={img} alt={event.title} class="event-hero-img" />
+        <div class="event-hero-overlay">
+          <div class="event-hero-tags">
+            <Badge variant={s.variant as any}>{s.label}</Badge>
+            {event.game && <Badge variant="muted">{event.game}</Badge>}
+          </div>
+          <h1>{event.title}</h1>
+        </div>
+      </div>
+
+      <div class="event-content">
+        <div class="event-info-grid">
+          <div class="event-meta-card">
+            <h3>Informasi Event</h3>
+            <ul>
+              {dateStr && <li>📅 {dateStr}</li>}
+              {event.location && <li>📍 {event.location}</li>}
+              {event.game && <li>🎮 {event.game}</li>}
+              {event.prize_pool && <li>🏆 {event.prize_pool}</li>}
+            </ul>
+          </div>
+
+          <div class="event-description">
+            {event.description && (
+              <div set:html={event.description} />
+            )}
+          </div>
+        </div>
+
+        {event.gallery && event.gallery.length > 0 && (
+          <div class="event-gallery mt-4">
+            <h2>Galeri</h2>
+            <div class="gallery-grid">
+              {event.gallery.map((g: any) => (
+                <img
+                  src={g.sizes?.card?.url || g.url}
+                  alt={g.alt_text || event.title}
+                  loading="lazy"
+                />
+              ))}
+            </div>
+          </div>
+        )}
+
+        <div class="mt-4">
+          <WhatsAppCTA url={event.whatsapp_url} eventName={event.title} />
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <Footer slot="footer" />
+</BaseLayout>
+
+<style>
+  .event-hero {
+    position: relative;
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    margin-bottom: 2rem;
+  }
+  .event-hero-img {
+    width: 100%;
+    height: 400px;
+    object-fit: cover;
+  }
+  .event-hero-overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 2rem;
+    background: linear-gradient(transparent, rgba(10, 15, 30, 0.9));
+  }
+  .event-hero-tags {
+    display: flex;
+    gap: 0.5rem;
+    margin-bottom: 0.75rem;
+  }
+  .event-hero-overlay h1 {
+    font-size: clamp(1.5rem, 4vw, 2.5rem);
+  }
+  .event-content {
+    max-width: 900px;
+    margin: 0 auto;
+  }
+  .event-info-grid {
+    display: grid;
+    grid-template-columns: 280px 1fr;
+    gap: 2rem;
+  }
+  .event-meta-card {
+    background: var(--color-card);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    padding: 1.5rem;
+    height: fit-content;
+  }
+  .event-meta-card h3 {
+    font-size: 1rem;
+    margin-bottom: 1rem;
+  }
+  .event-meta-card ul {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    font-size: 0.9rem;
+    color: var(--color-text-muted);
+    list-style: none;
+    padding: 0;
+  }
+  .event-description {
+    color: var(--color-text-muted);
+    line-height: 1.8;
+  }
+  .gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+    margin-top: 1rem;
+  }
+  .gallery-grid img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    border-radius: var(--radius);
+    cursor: pointer;
+    transition: transform 0.2s;
+  }
+  .gallery-grid img:hover {
+    transform: scale(1.03);
+  }
+  @media (max-width: 768px) {
+    .event-info-grid { grid-template-columns: 1fr; }
+    .gallery-grid { grid-template-columns: repeat(2, 1fr); }
+    .event-hero-img { height: 250px; }
+  }
+</style>

@@ -1,0 +1,33 @@
+---
+import Button from '../ui/Button.astro';
+
+interface Props {
+  url?: string;
+  eventName?: string;
+}
+const { url = 'https://wa.me/6281234567890', eventName } = Astro.props;
+const text = eventName ? encodeURIComponent(`Halo, saya tertarik dengan event "${eventName}". Bisa info lebih lanjut?`) : '';
+const href = text ? `${url}?text=${text}` : url;
+---
+
+<div class="wa-cta">
+  <Button href={href} variant="primary" size="lg">
+    💬 Daftar via WhatsApp
+  </Button>
+  <p class="wa-cta-note">Klik untuk langsung chat WhatsApp RIKAS</p>
+</div>
+
+<style>
+  .wa-cta {
+    text-align: center;
+    padding: 2rem;
+    background: var(--color-card);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+  }
+  .wa-cta-note {
+    font-size: 0.8rem;
+    color: var(--color-text-muted);
+    margin-top: 0.75rem;
+  }
+</style>
