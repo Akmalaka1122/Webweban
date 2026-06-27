@@ -36,6 +36,13 @@ export const Services: CollectionConfig = {
       },
     },
     {
+      name: 'whatsapp_contact',
+      type: 'text',
+      admin: {
+        description: 'WhatsApp number for booking inquiries (format: wa.me/628...)',
+      },
+    },
+    {
       name: 'assigned_team',
       type: 'array',
       fields: [

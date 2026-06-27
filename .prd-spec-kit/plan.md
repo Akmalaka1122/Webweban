@@ -78,8 +78,10 @@ docker compose up -d
 ```
 
 ## Constitution Check
-- ✅ Offline-first: Static site works without JS
-- ✅ No external deps: HTML/CSS/JS vanilla
-- ✅ VPS deployable: Docker + Caddy
-- ✅ Mobile-first responsive: CSS Grid + clamp()
-- ✅ Fast load: Minimal assets, no framework overhead
+- ✅ **I. Mobile-First**: CSS Grid + clamp() responsive design
+- ✅ **II. Content-Authenticity**: All content managed via Payload CMS — no fabricated events/team/services
+- ✅ **III. Bilingual-Ready (Indonesian-First, English-Ready)**: Indonesian content default, i18n structure in `apps/web/src/lib/i18n.ts`
+- ✅ **IV. Performance Budget**: Static Astro frontend, minimal client JS, Lighthouse ≥ 90 target
+- ✅ **V. Security & Privacy**: CMS admin access controlled, honeypot on public forms, no third-party analytics
+- ✅ **VI. Self-Hosted First**: Docker Compose + Caddy on VPS, MongoDB containerized
+- ✅ **VII. Visual Hierarchy Mirrors TeamLiquid.com**: Card-based sections, glassmorphism nav, large hero typography

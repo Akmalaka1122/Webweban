@@ -231,6 +231,25 @@
 
 ---
 
+### 4.1. Success Criteria (SC-001..SC-010)
+
+> Measurable outcomes tied to user stories. Each SC is verifiable with a specific test or metric.
+
+| SC ID | Criterion | User Story | Verification |
+|---|---|---|---|
+| SC-001 | Visitor can view ≥3 upcoming events on `/event` within 2 clicks from homepage | US-1 | Navigate homepage → events link → verify ≥3 cards render |
+| SC-002 | Event detail page loads fully in <2s on 4G with featured image visible | US-1 | Lighthouse audit on `/event/[slug]` |
+| SC-003 | WhatsApp registration link opens `wa.me` with pre-filled event name in message | US-1 | Click CTA → verify WhatsApp deep link URL format |
+| SC-004 | All 5 service categories visible on `/layanan` with icons | US-2 | Navigate to `/layanan` → count cards (≥5) |
+| SC-005 | Team member profile shows photo, role (Indonesian), bio, social links | US-2 | Navigate to `/tim/[slug]` → verify 4 elements present |
+| SC-006 | Contact form submits successfully and shows `/kontak/terima-kasih` | US-3 | Fill form → submit → verify redirect + CMS inquiry record |
+| SC-007 | Honeypot field silently rejects bot submission (no 200 to bot) | US-3 | Submit with honeypot field filled → verify silent reject |
+| SC-008 | News article displays featured image, author (linked to team), and inline images | US-4 | Navigate to `/berita/[slug]` → verify 3 elements |
+| SC-009 | Admin can log in at `/admin`, create event draft, publish, and see it on frontend | US-5 | Admin flow: login → create → draft → publish → verify on `/event` |
+| SC-010 | Lighthouse Performance ≥ 90, Accessibility ≥ 95 on all primary pages | Global | Run Lighthouse on `/`, `/event`, `/layanan`, `/tim`, `/kontak` |
+
+---
+
 ## 5. Non-Functional Requirements → Constitution Mapping
 
 | NFR | Requirement | Source Constitution |
@@ -293,16 +312,16 @@
 | FR-004 | Event detail page | T054, T058, T059 |
 | FR-005 | WhatsApp registration link | T055 |
 | FR-006 | Event status (upcoming/ongoing/completed/cancelled) | T048 |
-| FR-007 | Multiple game tags | (Implicit in T048 game field) |
+| FR-007 | Multiple game tags | T048 (`secondary_games` array field) |
 | FR-008 | Homepage carousel (top 3) | T052, T056 |
 | FR-010 | 5+ service categories | T060, T062, T063, T067, T071 |
 | FR-011 | Service detail page | T060, T063, T068, T074 |
 | FR-012 | Team grid with photo/name/role | T061, T064, T065, T069, T072 |
 | FR-013 | Team member profile page | T061, T070, T072, T073 |
 | FR-014 | Consistent aspect ratio + lazy loading | T107, T108 |
-| FR-015 | WhatsApp contact on service page | (Implicit in WhatsApp CTA) |
+| FR-015 | WhatsApp contact on service page | T060 (`whatsapp_contact` field), T068 (service detail page) |
 | FR-016 | Department grouping | T065, T066, T069 |
-| FR-017 | Indonesian role titles | (Content, not code) |
+| FR-017 | Indonesian role titles | T061 (`role` field in TeamMembers collection) |
 | FR-018 | Service area locations | T079 (contact map) |
 | FR-020 | Contact form at /kontak | T075, T076, T079 |
 | FR-021 | Server-side validation | T076, T081 |
@@ -318,8 +337,8 @@
 | FR-032 | Gallery masonry grid | T087, T090, T094, T095 |
 | FR-033 | Lightbox with caption | T087, T091, T094 |
 | FR-034 | Gallery event reference | T087, T094 |
-| FR-035 | Featured + inline images | (Implicit in article layout) |
-| FR-036 | Author attribution | (Implicit in article layout) |
+| FR-035 | Featured + inline images | T086 (`featuredImage` upload field in News collection) |
+| FR-036 | Author attribution | T086 (`author` relationship field in News collection) |
 | FR-037 | Pagination (24/page) | T089, T092 |
 | FR-040 | CMS admin panel at /admin | T039, T040, T041, T097, T101 |
 | FR-041 | CRUD operations | T027, T039, T098 |
@@ -338,7 +357,7 @@
 | FR-055 | sitemap.xml + robots.txt | T118, T119 |
 | FR-056 | OpenGraph meta tags | T029, T059, T120-T122 |
 | FR-057 | /health endpoint | T046, T129 |
-| FR-058 | Audit logging | (Implicit in Payload) |
+| FR-058 | Audit logging | T041 (Payload audit log config), T103 (inquiry status tracking) |
 
 ### Coverage Summary
 

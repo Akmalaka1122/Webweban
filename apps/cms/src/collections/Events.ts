@@ -27,6 +27,23 @@ export const Events: CollectionConfig = {
     {
       name: 'game',
       type: 'text',
+      admin: {
+        description: 'Primary game (e.g., Mobile Legends, Free Fire, PUBG Mobile)',
+      },
+    },
+    {
+      name: 'secondary_games',
+      type: 'array',
+      admin: {
+        description: 'FR-007: Secondary game tags for multi-game events',
+      },
+      fields: [
+        {
+          name: 'game',
+          type: 'text',
+          required: true,
+        },
+      ],
     },
     {
       name: 'date',

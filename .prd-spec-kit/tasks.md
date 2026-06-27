@@ -111,18 +111,18 @@
 
 ### Implementation
 
-- [ ] T048 [[US1,FR-001,FR-006]] P] [US1] Create `apps/cms/src/collections/Events.ts` with all fields from data-model.md
-- [ ] T049 [[US1,FR-001]] P] [US1] Create `apps/web/src/components/events/EventCard.astro` — card UI
-- [ ] T050 [[US1,FR-001,FR-003]] P] [US1] Create `apps/web/src/components/events/EventGrid.astro` — grid layout
-- [ ] T051 [[US1,FR-002]] P] [US1] Create `apps/web/src/components/events/EventFilters.astro` — game filter chips
-- [ ] T052 [[US1,FR-008]] P] [US1] Create `apps/web/src/components/events/EventCarousel.astro` — home carousel (3 items)
-- [ ] T053 [[US1,FR-001,FR-003,FR-002]] US1] Create `apps/web/src/pages/event/index.astro` — events list with upcoming/past tabs
-- [ ] T054 [[US1,FR-004]] US1] Create `apps/web/src/pages/event/[slug].astro` — event detail page with `getStaticPaths`
-- [ ] T055 [[US1,FR-005]] US1] Create `apps/web/src/components/events/WhatsAppCTA.astro` — wa.me link with prefilled message
-- [ ] T056 [[US1,FR-008]] US1] Add events carousel to `apps/web/src/pages/index.astro` home page
-- [ ] T057 [[US1,FR-001,FR-003]] US1] Update `apps/web/src/lib/cms.ts` with `getEvents()`, `getEventBySlug()` functions
-- [ ] T058 [[US1,FR-004]] US1] Add Schema.org Event structured data to event detail page
-- [ ] T059 [[US1,FR-004,FR-056]] US1] Add OpenGraph meta tags for event detail pages
+- [ ] T048 [P] [US1] [FR-001,FR-006,FR-007] Create `apps/cms/src/collections/Events.ts` with all fields from data-model.md (incl. `secondary_games` array for FR-007)
+- [ ] T049 [P] [US1] [FR-001] Create `apps/web/src/components/events/EventCard.astro` — card UI
+- [ ] T050 [P] [US1] [FR-001,FR-003] Create `apps/web/src/components/events/EventGrid.astro` — grid layout
+- [ ] T051 [P] [US1] [FR-002] Create `apps/web/src/components/events/EventFilters.astro` — game filter chips
+- [ ] T052 [P] [US1] [FR-008] Create `apps/web/src/components/events/EventCarousel.astro` — home carousel (3 items)
+- [ ] T053 [US1] [FR-001,FR-003,FR-002] Create `apps/web/src/pages/event/index.astro` — events list with upcoming/past tabs
+- [ ] T054 [US1] [FR-004] Create `apps/web/src/pages/event/[slug].astro` — event detail page with `getStaticPaths`
+- [ ] T055 [US1] [FR-005] Create `apps/web/src/components/events/WhatsAppCTA.astro` — wa.me link with prefilled message
+- [ ] T056 [US1] [FR-008] Add events carousel to `apps/web/src/pages/index.astro` home page
+- [ ] T057 [US1] [FR-001,FR-003] Update `apps/web/src/lib/cms.ts` with `getEvents()`, `getEventBySlug()` functions
+- [ ] T058 [US1] [FR-004] Add Schema.org Event structured data to event detail page
+- [ ] T059 [US1] [FR-004,FR-056] Add OpenGraph meta tags for event detail pages
 
 **Checkpoint**: `/event` shows all published events, filter works, detail page renders, WhatsApp link opens correctly.
 
@@ -135,21 +135,21 @@
 
 ### Implementation
 
-- [ ] T060 [[US2,FR-010,FR-011]] P] [US2] Create `apps/cms/src/collections/Services.ts` with all fields from data-model.md
-- [ ] T061 [[US2,FR-012,FR-013]] P] [US2] Create `apps/cms/src/collections/TeamMembers.ts` with all fields from data-model.md
-- [ ] T062 [[US2,FR-010]] P] [US2] Create `apps/web/src/components/services/ServiceCard.astro` — card UI
-- [ ] T063 [[US2,FR-010,FR-011]] P] [US2] Create `apps/web/src/components/services/ServiceGrid.astro` — grid layout
-- [ ] T064 [[US2,FR-012]] P] [US2] Create `apps/web/src/components/team/TeamMemberCard.astro` — card with photo, role
-- [ ] T065 [[US2,FR-012,FR-016]] P] [US2] Create `apps/web/src/components/team/TeamMemberGrid.astro` — grid grouped by department
-- [ ] T066 [[US2,FR-016]] P] [US2] Create `apps/web/src/components/team/DepartmentGroup.astro` — collapsible department section
-- [ ] T067 [[US2,FR-010]] US2] Create `apps/web/src/pages/layanan/index.astro` — services grid page
-- [ ] T068 [[US2,FR-011]] US2] Create `apps/web/src/pages/layanan/[slug].astro` — service detail with assigned team
-- [ ] T069 [[US2,FR-012,FR-016]] US2] Create `apps/web/src/pages/tim/index.astro` — team grid grouped by department
-- [ ] T070 [[US2,FR-013]] US2] Create `apps/web/src/pages/tim/[slug].astro` — team member profile with portfolio
-- [ ] T071 [[US2,FR-010]] US2] Add services preview to home page `apps/web/src/pages/index.astro`
-- [ ] T072 [[US2,FR-010,FR-012,FR-013]] US2] Update `apps/web/src/lib/cms.ts` with `getServices()`, `getTeamMembers()`, `getTeamMemberBySlug()`
-- [ ] T073 [[US2,FR-013]] US2] Add Schema.org Person structured data to team member profile
-- [ ] T074 [[US2,FR-011]] US2] Add Schema.org Service structured data to service detail page
+- [ ] T060 [P] [US2] [FR-010,FR-011] Create `apps/cms/src/collections/Services.ts` with all fields from data-model.md
+- [ ] T061 [P] [US2] [FR-012,FR-013] Create `apps/cms/src/collections/TeamMembers.ts` with all fields from data-model.md
+- [ ] T062 [P] [US2] [FR-010] Create `apps/web/src/components/services/ServiceCard.astro` — card UI
+- [ ] T063 [P] [US2] [FR-010,FR-011] Create `apps/web/src/components/services/ServiceGrid.astro` — grid layout
+- [ ] T064 [P] [US2] [FR-012] Create `apps/web/src/components/team/TeamMemberCard.astro` — card with photo, role
+- [ ] T065 [P] [US2] [FR-012,FR-016] Create `apps/web/src/components/team/TeamMemberGrid.astro` — grid grouped by department
+- [ ] T066 [P] [US2] [FR-016] Create `apps/web/src/components/team/DepartmentGroup.astro` — collapsible department section
+- [ ] T067 [US2] [FR-010] Create `apps/web/src/pages/layanan/index.astro` — services grid page
+- [ ] T068 [US2] [FR-011] Create `apps/web/src/pages/layanan/[slug].astro` — service detail with assigned team
+- [ ] T069 [US2] [FR-012,FR-016] Create `apps/web/src/pages/tim/index.astro` — team grid grouped by department
+- [ ] T070 [US2] [FR-013] Create `apps/web/src/pages/tim/[slug].astro` — team member profile with portfolio
+- [ ] T071 [US2] [FR-010] Add services preview to home page `apps/web/src/pages/index.astro`
+- [ ] T072 [US2] [FR-010,FR-012,FR-013] Update `apps/web/src/lib/cms.ts` with `getServices()`, `getTeamMembers()`, `getTeamMemberBySlug()`
+- [ ] T073 [US2] [FR-013] Add Schema.org Person structured data to team member profile
+- [ ] T074 [US2] [FR-011] Add Schema.org Service structured data to service detail page
 
 **Checkpoint**: `/layanan` and `/tim` render correctly, navigation between pages works, profiles show real data.
 
@@ -162,17 +162,17 @@
 
 ### Implementation
 
-- [ ] T075 [[US3,FR-020,FR-022]] P] [US3] Create `apps/cms/src/collections/Inquiries.ts` with all fields from data-model.md
-- [ ] T076 [[US3,FR-020,FR-021]] P] [US3] Create `apps/web/src/components/contact/ContactForm.tsx` — React island with React Hook Form + Zod
-- [ ] T077 [[US3,FR-027]] P] [US3] Create `apps/web/src/components/contact/InquiryTypeSelector.tsx` — type dropdown with conditional fields
-- [ ] T078 [[US3,FR-026]] P] [US3] Create `apps/web/src/components/contact/HoneypotField.tsx` — hidden spam field
-- [ ] T079 [US3,FR-020,FR-025,FR-018] Create `apps/web/src/pages/kontak.astro` — contact page with form + map embed
-- [ ] T080 [[US3,FR-028]] US3] Create `apps/web/src/pages/kontak/terima-kasih.astro` — success page
-- [ ] T081 [[US3,FR-021,FR-026]] US3] Create `apps/web/src/pages/api/contact.ts` — POST endpoint with validation + rate limiting
-- [ ] T082 [[US3,FR-023]] US3] Create `apps/web/src/lib/email.ts` — Nodemailer SMTP client + Indonesian templates
-- [ ] T083 [[US3,FR-026]] US3] Add honeypot + rate limit (5/min/IP) to contact API endpoint
-- [ ] T084 [[US3,FR-023]] US3] Wire email notification on successful inquiry submission
-- [ ] T085 [[US3,FR-024]] US3] Update `apps/web/src/components/brand/Footer.astro` with inquiry submission link
+- [ ] T075 [P] [US3] [FR-020,FR-022] Create `apps/cms/src/collections/Inquiries.ts` with all fields from data-model.md
+- [ ] T076 [P] [US3] [FR-020,FR-021] Create `apps/web/src/components/contact/ContactForm.tsx` — React island with React Hook Form + Zod
+- [ ] T077 [P] [US3] [FR-027] Create `apps/web/src/components/contact/InquiryTypeSelector.tsx` — type dropdown with conditional fields
+- [ ] T078 [P] [US3] [FR-026] Create `apps/web/src/components/contact/HoneypotField.tsx` — hidden spam field
+- [ ] T079 [US3] [FR-020,FR-025,FR-018] Create `apps/web/src/pages/kontak.astro` — contact page with form + map embed
+- [ ] T080 [US3] [FR-028] Create `apps/web/src/pages/kontak/terima-kasih.astro` — success page
+- [ ] T081 [US3] [FR-021,FR-026] Create `apps/web/src/pages/api/contact.ts` — POST endpoint with validation + rate limiting
+- [ ] T082 [US3] [FR-023] Create `apps/web/src/lib/email.ts` — Nodemailer SMTP client + Indonesian templates
+- [ ] T083 [US3] [FR-026] Add honeypot + rate limit (5/min/IP) to contact API endpoint
+- [ ] T084 [US3] [FR-023] Wire email notification on successful inquiry submission
+- [ ] T085 [US3] [FR-024] Update `apps/web/src/components/brand/Footer.astro` with inquiry submission link
 
 **Checkpoint**: Form submits, inquiry appears in CMS dashboard, email arrives in admin inbox, honeypot blocks bots.
 
@@ -185,17 +185,17 @@
 
 ### Implementation
 
-- [ ] T086 [[US4,FR-030,FR-031]] P] [US4] Create `apps/cms/src/collections/News.ts` with all fields from data-model.md
-- [ ] T087 [[US4,FR-032,FR-033,FR-034]] P] [US4] Create `apps/cms/src/collections/Gallery.ts` with all fields from data-model.md
-- [ ] T088 [[US4,FR-030]] P] [US4] Create `apps/web/src/components/news/ArticleCard.astro` — card with thumbnail, excerpt
-- [ ] T089 [[US4,FR-030,FR-037]] P] [US4] Create `apps/web/src/components/news/ArticleGrid.astro` — paginated grid
-- [ ] T090 [[US4,FR-032]] P] [US4] Create `apps/web/src/components/gallery/MasonryGrid.tsx` — React island for masonry layout
-- [ ] T091 [[US4,FR-033]] P] [US4] Create `apps/web/src/components/gallery/Lightbox.tsx` — React island with caption + nav
-- [ ] T092 [[US4,FR-030,FR-037]] US4] Create `apps/web/src/pages/berita/index.astro` — news list with pagination
-- [ ] T093 [[US4,FR-031]] US4] Create `apps/web/src/pages/berita/[slug].astro` — article detail with related articles
-- [ ] T094 [[US4,FR-032,FR-033,FR-034]] US4] Create `apps/web/src/pages/galeri.astro` — gallery page with masonry + lightbox
-- [ ] T095 [[US4,FR-030,FR-032]] US4] Update `apps/web/src/lib/cms.ts` with `getArticles()`, `getGallery()`, `getArticleBySlug()`
-- [ ] T096 [[US4,FR-031]] US4] Add Schema.org Article structured data to article detail page
+- [ ] T086 [P] [US4] [FR-030,FR-031] Create `apps/cms/src/collections/News.ts` with all fields from data-model.md
+- [ ] T087 [P] [US4] [FR-032,FR-033,FR-034] Create `apps/cms/src/collections/Gallery.ts` with all fields from data-model.md
+- [ ] T088 [P] [US4] [FR-030] Create `apps/web/src/components/news/ArticleCard.astro` — card with thumbnail, excerpt
+- [ ] T089 [P] [US4] [FR-030,FR-037] Create `apps/web/src/components/news/ArticleGrid.astro` — paginated grid
+- [ ] T090 [P] [US4] [FR-032] Create `apps/web/src/components/gallery/MasonryGrid.tsx` — React island for masonry layout
+- [ ] T091 [P] [US4] [FR-033] Create `apps/web/src/components/gallery/Lightbox.tsx` — React island with caption + nav
+- [ ] T092 [US4] [FR-030,FR-037] Create `apps/web/src/pages/berita/index.astro` — news list with pagination
+- [ ] T093 [US4] [FR-031] Create `apps/web/src/pages/berita/[slug].astro` — article detail with related articles
+- [ ] T094 [US4] [FR-032,FR-033,FR-034] Create `apps/web/src/pages/galeri.astro` — gallery page with masonry + lightbox
+- [ ] T095 [US4] [FR-030,FR-032] Update `apps/web/src/lib/cms.ts` with `getArticles()`, `getGallery()`, `getArticleBySlug()`
+- [ ] T096 [US4] [FR-031] Add Schema.org Article structured data to article detail page
 
 **Checkpoint**: `/berita` shows articles, pagination works, article detail renders, gallery masonry + lightbox work.
 
@@ -208,16 +208,16 @@
 
 ### Implementation
 
-- [ ] T097 [[US5,FR-040,FR-047]] P] [US5] Configure Payload admin UI in `apps/cms/src/payload.config.ts` with Indonesian labels
-- [ ] T098 [[US5,FR-041]] P] [US5] Add custom dashboard widgets to Payload admin (inquiry count, recent events)
-- [ ] T099 [[US5,FR-043]] P] [US5] Create `apps/cms/src/collections/hooks/notifyOnPublish.ts` — webhook trigger
-- [ ] T100 [[US5,FR-048]] US5] Create admin user seeding in `scripts/seed.ts` (admin + editor users)
-- [ ] T101 [[US5,FR-040]] US5] Configure Caddy to proxy `/admin` to Payload CMS port 3001
-- [ ] T102 [[US5,FR-044]] US5] Add bulk upload UI for gallery photos in Payload
-- [ ] T103 [[US5,FR-045]] US5] Add inquiry inbox view in Payload with status filters
-- [ ] T104 [[US5,FR-046]] US5] Add rich text editor configuration (bold, italic, links, images, headings, lists)
-- [ ] T105 [[US5,FR-047]] US5] Configure Payload admin localization for Indonesian UI labels
-- [ ] T106 [[US5,FR-040,FR-043]] US5] Test full content workflow: create event → publish → webhook → rebuild → live
+- [ ] T097 [P] [US5] [FR-040,FR-047] Configure Payload admin UI in `apps/cms/src/payload.config.ts` with Indonesian labels
+- [ ] T098 [P] [US5] [FR-041] Add custom dashboard widgets to Payload admin (inquiry count, recent events)
+- [ ] T099 [P] [US5] [FR-043] Create `apps/cms/src/collections/hooks/notifyOnPublish.ts` — webhook trigger
+- [ ] T100 [US5] [FR-048] Create admin user seeding in `scripts/seed.ts` (admin + editor users)
+- [ ] T101 [US5] [FR-040] Configure Caddy to proxy `/admin` to Payload CMS port 3001
+- [ ] T102 [US5] [FR-044] Add bulk upload UI for gallery photos in Payload
+- [ ] T103 [US5] [FR-045] Add inquiry inbox view in Payload with status filters
+- [ ] T104 [US5] [FR-046] Add rich text editor configuration (bold, italic, links, images, headings, lists)
+- [ ] T105 [US5] [FR-047] Configure Payload admin localization for Indonesian UI labels
+- [ ] T106 [US5] [FR-040,FR-043] Test full content workflow: create event → publish → webhook → rebuild → live
 
 **Checkpoint**: Admin can create/edit/publish all content types, webhooks fire correctly, build auto-updates site.
 
